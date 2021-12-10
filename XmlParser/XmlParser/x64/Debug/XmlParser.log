@@ -1,0 +1,4 @@
+﻿  MainGui.cpp
+D:\c++ projects\XmlParser\XmlParser\MainGui.cpp(6,33): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+  MainGui.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  XmlParser.vcxproj -> D:\c++ projects\XmlParser\x64\Debug\XmlParser.exe

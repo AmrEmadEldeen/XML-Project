@@ -1,0 +1,4 @@
+D:\c++ projects\XmlParser\XmlParser\x64\Debug\XmlParser.vcxproj.AssemblyReference.cache
+D:\c++ projects\XmlParser\XmlParser\x64\Debug\XmlParser.vcxproj.SuggestedBindingRedirects.cache
+D:\c++ projects\XmlParser\XmlParser\x64\Debug\XmlParser.MainGui.resources
+D:\c++ projects\XmlParser\XmlParser\x64\Debug\XmlParser.vcxproj.GenerateResource.cache
