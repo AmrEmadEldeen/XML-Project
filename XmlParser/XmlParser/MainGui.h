@@ -142,6 +142,19 @@ namespace XmlParser {
 
 		}
 	}
+	
+	private: static string tostdstring(System::String^ strobj) {
+		using System::Runtime::InteropServices::Marshal;
+		System::IntPtr pointer = Marshal::StringToHGlobalAnsi(strobj);
+		char* charpointer = reinterpret_cast<char*>(pointer.ToPointer());
+		std::string returnString(charpointer, strobj->Length);
+		Marshal::FreeHGlobal(pointer);
+		return returnString;
+	}
+
+	private: static String^ tosysstring(string s) {
+		return gcnew String(s.c_str());
+	}
 
 };
 }
