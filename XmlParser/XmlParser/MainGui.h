@@ -173,5 +173,118 @@ namespace XmlParser {
 		str[count] = '\0';
 		return str;
 	}
+	
+private: static vector<int> Compress(string input_stream)
+	{
+		unordered_map <string, int> table;
+		for (int i = 0; i <= 255; i++)                     
+		{
+			string ch = "";                              
+			ch += char(i);
+			table[ch] = i;                                
+		}                                                
+
+		string current = "";                                    
+		string next = "";                                     
+		current += input_stream[0];                            
+		int code = 256;                                          
+		vector<int> output_code;                                 
+	
+		for (unsigned int i = 0; i < input_stream.length(); i++)   
+		{
+			if (i != input_stream.length() - 1)                   
+				next += input_stream[i + 1];                      
+		
+			if (table.find(current + next) != table.end())    	
+			{
+				current = current + next;                      
+			}
+		
+			else 											 
+			{
+				output_code.push_back(table[current]);	   
+				table[current + next] = code;			 
+				code++;                                
+				current = next;                        
+			}
+			next = "";                                
+		}
+	
+		output_code.push_back(table[current]);
+		return output_code;                             
+	}
+
+	private: static void savecompressedFile(string f,vector<int> a) 
+	{
+		ofstream file(f, ios::binary | ios::out);                
+	                                                        
+		for (unsigned int i = 0; i < a.size(); i++) 
+		{
+			int num = a[i];
+			file.write((char *)&num, sizeof(int));
+		}
+	
+		file.close();
+	}
+
+	private: static vector<int> readCompressedFile(string f) 
+	{
+		ifstream file(f, ios::binary | ios::in);               
+	                                                    
+		vector<int>b;
+	
+		while (!file.eof())                                 
+		{
+			int num;
+			file.read((char *)&num, sizeof(int));
+			b.push_back(num);
+		}
+	
+		file.close();
+		return b;
+	}
+	private: static string Decompression(vector<int> input_code)
+	{
+		unordered_map <int, string> table;           
+		for (int i = 0; i <= 255; i++) 
+		{
+			string ch = "";
+			ch += char(i);
+			table[i] = ch;                          
+		}
+	
+		string Out_string = "";                          
+		int old = input_code[0];                 
+		int	 n;
+		string s = table[old];                    
+		string c = "";
+		c += s[0];
+		cout << s;                               
+		int count = 256;                         
+	
+		for (unsigned int i = 0; i < input_code.size() - 1; i++)     
+		{
+			n = input_code[i + 1];                                  
+		
+			if (table.find(n) == table.end())                      
+			{
+				s = table[old];                                   
+				s = s + c;
+			}
+		
+			else                                                  
+			{
+				s = table[n];                                    
+			}
+		
+			Out_string += s;                                           
+			c = "";
+			c += s[0];
+			table[count] = table[old] + c;                            
+			count++;
+			old = n;
+		}
+		return Out_string;
+	}	
 };
 }
