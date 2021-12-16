@@ -152,7 +152,7 @@ namespace XmlParser {
 
 		}
 	}
-	
+	// FUNCTIONS PARTITION
 	private: static string tostdstring(System::String^ strobj) {
 		using System::Runtime::InteropServices::Marshal;
 		System::IntPtr pointer = Marshal::StringToHGlobalAnsi(strobj);
@@ -165,6 +165,13 @@ namespace XmlParser {
 	private: static String^ tosysstring(string s) {
 		return gcnew String(s.c_str());
 	}
-
+	private: static string minify(string str) {
+		int count = 0;
+		for (int i = 0; str[i]; i++)
+			if (str[i] != ' ' && str[i] != '\n')
+				str[count++] = str[i];
+		str[count] = '\0';
+		return str;
+	}
 };
 }
