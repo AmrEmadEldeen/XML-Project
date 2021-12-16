@@ -1,3 +1,13 @@
+
+#include "About.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <stack>
+#include <unordered_map>
+#include <algorithm>
+
 #pragma once
 
 namespace XmlParser {
