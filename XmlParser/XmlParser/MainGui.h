@@ -285,6 +285,89 @@ private: static vector<int> Compress(string input_stream)
 			old = n;
 		}
 		return Out_string;
-	}	
+	}
+void Error_corr(string& S)
+	   {
+		   stack <string> T;
+		   stack <string> M;
+		   string open = "";
+		   string closed = "";
+	           string C = "";
+		   string K = "";
+	           string B = "";
+
+for (int i = 0; i < S.length(); i++)
+	 {
+
+if (S[i] == '<' && S[i + 1] != '/')
+	 {
+	   i++;
+	  while (S[i] != '>')
+		   {
+		   open += S[i++];
+		   }
+		T.push(open);
+	        open.clear();
+		   }
+else if (S[i] == '<' && S[i + 1] == '/')
+		   {
+	        i = i + 2;
+	        while (S[i] != '>')
+		 {
+		   closed += S[i++];
+		 }
+					 
+	 if (closed == T.top())
+{
+	   T.pop();
+	   closed.clear();
+  }
+else {
+       B = T.top();
+   while (!T.empty() && T.top() != closed)
+     {
+	   C = T.top();
+	  M.push(C);
+	 T.pop();
+	C.clear();
+     }
+   if (T.empty())
+ {
+   while (!M.empty())
+ {
+   K = M.top();
+   T.push(K);
+   M.pop();
+   K.clear();
+}
+ MessageBox::Show("</" + tosysstring(closed) + "> Should be </" + tosysstring(T.top()) + ">", " ", MessageBoxButtons::OK, MessageBoxIcon::Asterisk);
+  T.pop();
+  closed.clear();
+ }
+ else if (closed == T.top())
+ {
+   T.pop();
+   while (!M.empty())
+ {
+   MessageBox::Show("<" + tosysstring(M.top()) + ">  with no closed tag", " ", MessageBoxButtons::OK, MessageBoxIcon::Asterisk);
+   M.pop();
+ }
+   closed.clear();
+ }
+}
+}
+
+}
+ if (T.empty())
+{
+ {MessageBox::Show("Finish Detection", " ", MessageBoxButtons::OK, MessageBoxIcon::Asterisk); }
+
+}
+while (!T.empty())
+ {
+ MessageBox::Show("<" + tosysstring(T.top()) + ">  with no closed tag", " ", MessageBoxButtons::OK, MessageBoxIcon::Asterisk);
+ T.pop();
+  }
+}
 };
 }
