@@ -236,6 +236,27 @@ namespace XmlParser {
 			this->formatbutton->Text = L"Format";
 			this->formatbutton->UseVisualStyleBackColor = true;
 			this->formatbutton->Click += gcnew System::EventHandler(this, &MainGui::formatbutton_Click);
+					// 
+			// socialnet_button
+			// 
+			this->socialnet_button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->socialnet_button->Location = System::Drawing::Point(493, 263);
+			this->socialnet_button->Name = L"socialnet_button";
+			this->socialnet_button->Size = System::Drawing::Size(80, 28);
+			this->socialnet_button->TabIndex = 13;
+			this->socialnet_button->Text = L"Visualize";
+			this->socialnet_button->UseVisualStyleBackColor = true;
+			this->socialnet_button->Click += gcnew System::EventHandler(this, &MainGui::socialnet_button_Click);
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
+			this->pictureBox1->Location = System::Drawing::Point(12, 59);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(439, 368);
+			this->pictureBox1->TabIndex = 14;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Visible = false;
 			// 
 			// MainGui
 			// 
@@ -387,6 +408,22 @@ namespace XmlParser {
 		iteration(root, out);
 		richTextBox1->Text = tosysstring(out);
 
+	}
+	private: System::Void socialnet_button_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		string st = tostdstring(richTextBox1->Text);
+		string dtfile = idseeker(st);
+		//const char *path = ;
+		std::ofstream file("graph.dt");
+		file << "digraph{\n"+ dtfile+ "}";
+		file.close();
+		system("c:");
+		system("cd C:/Users/%USERNAME%/Desktop/Xml Parser");
+		system("dot -Tpng -O graph.dt");
+		richTextBox1->Visible = false;
+		pictureBox1->Visible = true;
+		pictureBox1->Image = Image::FromFile("graph.dt.png");
+		label1->Text = "The Social Network graph";
 	}
 
 	// FUNCTIONS PARTITION
@@ -731,5 +768,30 @@ namespace XmlParser {
             }
         }
     }
+    public: static string idseeker(string s) {
+		int counter = 0;
+		string IdFols;
+		for (int i = 0; i < s.length(); i++)
+		{
+			if (s[i] == '<' && s[i + 1] == 'i' && s[i + 2] == 'd' && s[i + 3] == '>')
+			{
+				IdFols.push_back(s[i + 4]);
+				IdFols.push_back(32);
+				if (counter == 0)
+				{
+					IdFols += " -> ";
+					IdFols += "{ ";
+					counter = 1;
+				}
+			}
+			else if (s[i] == '<' && s[i + 1] == '/' && s[i + 2] == 'u' && s[i + 3] == 's' && s[i + 4] == 'e' && s[i + 5] == 'r' && s[i + 6] == '>')
+			{
+				counter = 0;
+				IdFols += "}";
+				IdFols.push_back(10);
+			}
+	}
+	return IdFols;
+	}
 };
 }
